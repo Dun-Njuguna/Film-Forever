@@ -13,13 +13,33 @@ struct Constants {
 }
 
 
-enum APIError{
+enum APIError: Error{
     case failedTogetData
 }
 
 class ApiCaller {
     static let shared = ApiCaller()
     
+    
+    func getNowPlaying(completion: @escaping (Result<InTheatresResponse, Error>) -> Void){
+        guard let url = URL(string: "\(Constants.BASE_URL)/3/movie/now_playing?api_key=\(Constants.API_KEY)&language=en-US&page=1") else {return}
+        
+        let task = URLSession.shared.dataTask(with: url, completionHandler: {data, _, error in
+            guard let data = data, error == nil else {
+                return
+            }
+            
+            do {
+                let result = try JSONDecoder().decode(InTheatresResponse.self, from: data)
+                completion(.success(result))
+                
+            }catch{
+                completion(.failure(APIError.failedTogetData))
+            }
+            
+        })
+        task.resume()
+    }
     
     func getTrendingMovies(completion: @escaping (Result<TrendingMoviesResponse, Error>) -> Void){
         guard let url = URL(string: "\(Constants.BASE_URL)/3/trending/movie/day?api_key=\(Constants.API_KEY)") else {return}
@@ -34,7 +54,7 @@ class ApiCaller {
                 completion(.success(result))
                 
             }catch{
-                completion(.failure(error))
+                completion(.failure(APIError.failedTogetData))
             }
             
         })
@@ -54,7 +74,7 @@ class ApiCaller {
                 completion(.success(result))
                 
             }catch{
-                completion(.failure(error))
+                completion(.failure(APIError.failedTogetData))
             }
             
         })
@@ -74,7 +94,7 @@ class ApiCaller {
                 completion(.success(result))
                 
             }catch{
-                completion(.failure(error))
+                completion(.failure(APIError.failedTogetData))
             }
             
         })
@@ -94,7 +114,7 @@ class ApiCaller {
                 completion(.success(result))
                 
             }catch{
-                completion(.failure(error))
+                completion(.failure(APIError.failedTogetData))
             }
             
         })
@@ -114,7 +134,7 @@ class ApiCaller {
                 completion(.success(result))
                 
             }catch{
-                completion(.failure(error))
+                completion(.failure(APIError.failedTogetData))
             }
             
         })
@@ -134,7 +154,7 @@ class ApiCaller {
                 completion(.success(result))
                 
             }catch{
-                completion(.failure(error))
+                completion(.failure(APIError.failedTogetData))
             }
             
         })
@@ -154,7 +174,7 @@ class ApiCaller {
                 completion(.success(result))
                 
             }catch{
-                completion(.failure(error))
+                completion(.failure(APIError.failedTogetData))
             }
             
         })
