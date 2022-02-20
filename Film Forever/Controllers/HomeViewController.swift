@@ -69,7 +69,7 @@ class HomeViewController: UIViewController {
     }
     
     private func getData(){
-        ApiCaller.shared.getTopRatedMovies{ results in
+        ApiCaller.shared.getNowPlaying{ results in
             switch results{
             case .success(let movies):
                 print(movies)
@@ -113,7 +113,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else {return}
         header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        header.textLabel?.text = header.textLabel?.text?.capitalizeFirstLetter()
+        header.textLabel?.text = header.textLabel?.text?.capitalized
         header.textLabel?.textColor = .secondaryLabel
         header.textLabel?.frame = CGRect(x: header.bounds.minX + 20, y: header.bounds.origin.y, width: 100, height: header.bounds.height)
     }
