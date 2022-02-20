@@ -17,6 +17,8 @@ import UIKit
  */
 class HomeViewController: UIViewController {
     
+    let sectiontitles:[String] = ["Trending Movies", "Popular", "Trending Tv", "Upcomming Movies", "Top rated"]
+    
     /**
     Create grouped table view
      
@@ -69,12 +71,10 @@ class HomeViewController: UIViewController {
     
 }
 
-
-
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 20
+        return sectiontitles.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -95,5 +95,22 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return 40
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectiontitles[section]
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else {return}
+        header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        header.textLabel?.text = header.textLabel?.text?.capitalized
+        header.textLabel?.textColor = .secondaryLabel
+        header.textLabel?.frame = CGRect(x: header.bounds.minX + 20, y: header.bounds.origin.y, width: 100, height: header.bounds.height)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let defaultOffset = view.safeAreaInsets.top
+        let offset = scrollView.contentOffset.y + defaultOffset
+        navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0,-offset))
+    }
 }
 
