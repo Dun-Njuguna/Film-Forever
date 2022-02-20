@@ -20,13 +20,13 @@ class HomeViewController: UIViewController {
     let sectiontitles:[String] = ["Trending Movies", "Popular", "Trending Tv", "Upcomming Movies", "Top rated"]
     
     /**
-    Create grouped table view
+     Create grouped table view
      
      
-    1. Set datasource, delegate and headerview.
-    2. HeaderView contains films with the highest priority enabling the user to quickly navigate and watch.
-    3. Make tableView to cover the entire screen in viewDidLayoutSubviews()
-    */
+     1. Set datasource, delegate and headerview.
+     2. HeaderView contains films with the highest priority enabling the user to quickly navigate and watch.
+     3. Make tableView to cover the entire screen in viewDidLayoutSubviews()
+     */
     let homeFeedTable: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
@@ -46,7 +46,7 @@ class HomeViewController: UIViewController {
         let headerView = HeroHeaderUIView()
         headerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 450)
         homeFeedTable.tableHeaderView = headerView
-        
+        getTrendingMovies()
     }
     
     override func viewDidLayoutSubviews() {
@@ -68,6 +68,17 @@ class HomeViewController: UIViewController {
         
     }
     
+    private func getTrendingMovies(){
+        ApiCaller.shared.getTrendingmovies{ results in
+            switch results{
+            case .success(let movies):
+                print(movies)
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
     
 }
 
