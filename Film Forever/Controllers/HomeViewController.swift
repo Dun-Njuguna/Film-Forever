@@ -17,7 +17,7 @@ import UIKit
  */
 class HomeViewController: UIViewController {
     
-    let sectiontitles:[String] = ["Trending Movies", "Popular", "Trending Tv", "Upcomming Movies", "Top rated"]
+    let sectiontitles:[String] = ["Trending Movies", "Trending Tv",  "Popular", "Upcomming Movies", "Top rated"]
     
     /**
      Create grouped table view
@@ -46,7 +46,7 @@ class HomeViewController: UIViewController {
         let headerView = HeroHeaderUIView()
         headerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 450)
         homeFeedTable.tableHeaderView = headerView
-        getTrendingMovies()
+        getData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -68,8 +68,8 @@ class HomeViewController: UIViewController {
         
     }
     
-    private func getTrendingMovies(){
-        ApiCaller.shared.getTrendingmovies{ results in
+    private func getData(){
+        ApiCaller.shared.getTopRatedMovies{ results in
             switch results{
             case .success(let movies):
                 print(movies)
@@ -113,7 +113,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else {return}
         header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        header.textLabel?.text = header.textLabel?.text?.capitalized
+        header.textLabel?.text = header.textLabel?.text?.capitalizeFirstLetter()
         header.textLabel?.textColor = .secondaryLabel
         header.textLabel?.frame = CGRect(x: header.bounds.minX + 20, y: header.bounds.origin.y, width: 100, height: header.bounds.height)
     }

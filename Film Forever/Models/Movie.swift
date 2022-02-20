@@ -7,12 +7,6 @@
 
 import Foundation
 
-
-struct TrendingMoviesResponse: Codable {
-    let page: Int
-    let results: [Movie]
-}
-
 struct Movie: Codable {
     let adult: Bool?
     let backdrop_path: String?
