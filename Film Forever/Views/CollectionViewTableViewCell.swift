@@ -7,6 +7,8 @@
 
 import UIKit
 
+/// Defines a horizontal collectionview for home view controller table view
+
 class CollectionViewTableViewCell: UITableViewCell {
 
     static let identifier = "CollectionViewTableViewCell"
