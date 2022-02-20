@@ -12,6 +12,10 @@
 		D0044A9727C16DFB00CF9C82 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0044A9627C16DFB00CF9C82 /* MainTabBarViewController.swift */; };
 		D0044A9C27C16DFE00CF9C82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0044A9B27C16DFE00CF9C82 /* Assets.xcassets */; };
 		D0044A9F27C16DFE00CF9C82 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0044A9D27C16DFE00CF9C82 /* LaunchScreen.storyboard */; };
+		D0EC006727C2231D001DA797 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EC006627C2231D001DA797 /* HomeViewController.swift */; };
+		D0EC006927C22357001DA797 /* UpcomingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EC006827C22357001DA797 /* UpcomingViewController.swift */; };
+		D0EC006B27C22397001DA797 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EC006A27C22397001DA797 /* SearchViewController.swift */; };
+		D0EC006D27C223B3001DA797 /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EC006C27C223B3001DA797 /* DownloadsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +26,10 @@
 		D0044A9B27C16DFE00CF9C82 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0044A9E27C16DFE00CF9C82 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D0044AA027C16DFE00CF9C82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0EC006627C2231D001DA797 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		D0EC006827C22357001DA797 /* UpcomingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingViewController.swift; sourceTree = "<group>"; };
+		D0EC006A27C22397001DA797 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		D0EC006C27C223B3001DA797 /* DownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +62,7 @@
 		D0044A9127C16DFB00CF9C82 /* Film Forever */ = {
 			isa = PBXGroup;
 			children = (
+				D0EC006527C222CA001DA797 /* Controllers */,
 				D0044A9227C16DFB00CF9C82 /* AppDelegate.swift */,
 				D0044A9427C16DFB00CF9C82 /* SceneDelegate.swift */,
 				D0044A9627C16DFB00CF9C82 /* MainTabBarViewController.swift */,
@@ -62,6 +71,17 @@
 				D0044AA027C16DFE00CF9C82 /* Info.plist */,
 			);
 			path = "Film Forever";
+			sourceTree = "<group>";
+		};
+		D0EC006527C222CA001DA797 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D0EC006627C2231D001DA797 /* HomeViewController.swift */,
+				D0EC006827C22357001DA797 /* UpcomingViewController.swift */,
+				D0EC006A27C22397001DA797 /* SearchViewController.swift */,
+				D0EC006C27C223B3001DA797 /* DownloadsViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,9 +154,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0EC006B27C22397001DA797 /* SearchViewController.swift in Sources */,
 				D0044A9727C16DFB00CF9C82 /* MainTabBarViewController.swift in Sources */,
+				D0EC006D27C223B3001DA797 /* DownloadsViewController.swift in Sources */,
 				D0044A9327C16DFB00CF9C82 /* AppDelegate.swift in Sources */,
+				D0EC006927C22357001DA797 /* UpcomingViewController.swift in Sources */,
 				D0044A9527C16DFB00CF9C82 /* SceneDelegate.swift in Sources */,
+				D0EC006727C2231D001DA797 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
