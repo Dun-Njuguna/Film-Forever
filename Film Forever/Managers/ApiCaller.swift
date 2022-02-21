@@ -7,11 +7,6 @@
 
 import Foundation
 
-struct Constants {
-    static let API_KEY = "d59c083ee4818d897be1fad929a8731b"
-    static let BASE_URL = "https://api.themoviedb.org"
-}
-
 
 enum APIError: Error{
     case failedTogetData

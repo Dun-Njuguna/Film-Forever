@@ -8,6 +8,14 @@
 import UIKit
 
 
+enum Sections: Int{
+    case Trendingmovies = 0
+    case TrendingTv = 1
+    case Popular = 2
+    case Upcoming = 3
+    case TopRated = 4
+}
+
 /**
  Conform to datasource and delegate protocals via extension.
  
@@ -46,7 +54,6 @@ class HomeViewController: UIViewController {
         let headerView = HeroHeaderUIView()
         headerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 450)
         homeFeedTable.tableHeaderView = headerView
-        getData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -95,6 +102,55 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionViewTableViewCell.identifier, for: indexPath) as? CollectionViewTableViewCell else { return UITableViewCell()}
         
+        switch indexPath.section{
+        case Sections.Trendingmovies.rawValue:
+            ApiCaller.shared.getTrendingMovies{ results in
+                switch results{
+                case .success(let data):
+                    cell.configure(with: data.results)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        case Sections.TrendingTv.rawValue:
+            ApiCaller.shared.getTrendingTvShows{ results in
+                switch results{
+                case .success(let data):
+                    cell.configure(with: data.results)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        case Sections.Popular.rawValue:
+            ApiCaller.shared.getPopularMovies{ results in
+                switch results{
+                case .success(let data):
+                    cell.configure(with: data.results)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        case Sections.Upcoming.rawValue:
+            ApiCaller.shared.getUpcomingShows{ results in
+                switch results{
+                case .success(let data):
+                    cell.configure(with: data.results)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        case Sections.TopRated.rawValue:
+            ApiCaller.shared.getTopRatedMovies{ results in
+                switch results{
+                case .success(let data):
+                    cell.configure(with: data.results)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        default:
+            return UITableViewCell()
+        }
         return cell
     }
     
