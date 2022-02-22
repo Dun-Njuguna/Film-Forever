@@ -33,6 +33,7 @@
 		D0EC009227C32094001DA797 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = D0EC009127C32094001DA797 /* SDWebImage */; };
 		D0EC009427C32094001DA797 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D0EC009327C32094001DA797 /* SDWebImageMapKit */; };
 		D0EC009627C32D0B001DA797 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EC009527C32D0B001DA797 /* Constants.swift */; };
+		D0EC009827C4762B001DA797 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EC009727C4762B001DA797 /* MovieTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		D0EC008C27C2BFCE001DA797 /* InTheatresResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTheatresResponse.swift; sourceTree = "<group>"; };
 		D0EC008E27C31E8F001DA797 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		D0EC009527C32D0B001DA797 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D0EC009727C4762B001DA797 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 				D0EC007427C22FB6001DA797 /* CollectionViewTableViewCell.swift */,
 				D0EC007627C24A3A001DA797 /* HeroHeaderUIView.swift */,
 				D0EC008E27C31E8F001DA797 /* MovieCollectionViewCell.swift */,
+				D0EC009727C4762B001DA797 /* MovieTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				D0EC007B27C29B0A001DA797 /* TrendingMoviesResponse.swift in Sources */,
 				D0EC008B27C2B072001DA797 /* TopRatedMoviesResponse.swift in Sources */,
 				D0EC007927C294AF001DA797 /* ApiCaller.swift in Sources */,
+				D0EC009827C4762B001DA797 /* MovieTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
