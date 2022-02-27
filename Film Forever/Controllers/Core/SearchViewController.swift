@@ -11,10 +11,9 @@ import UIKit
 
 class SearchViewController: UIViewController  {
     
-    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width / 3 - 10, height: 200)
         layout.minimumLineSpacing = 8
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -22,6 +21,12 @@ class SearchViewController: UIViewController  {
         return collectionView
     }()
     
+    private let searchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: SearchResultViewController())
+        controller.searchBar.placeholder = "Search for a Movie or Tv show"
+        controller.searchBar.searchBarStyle = .minimal
+        return controller
+    }()
     
     private var films:[Movie] = [Movie]()
     
@@ -32,18 +37,21 @@ class SearchViewController: UIViewController  {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         
+        navigationItem.searchController = searchController
+        navigationController?.navigationBar.tintColor = .white
         view.addSubview(collectionView)
         
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        fetchUpcoming()
+        discoverFilms()
+        searchController.searchResultsUpdater = self
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 8))
+        collectionView.frame = view.bounds
         
         if #available(iOS 11.0, *) {
             collectionView.contentInsetAdjustmentBehavior = .always
@@ -52,8 +60,8 @@ class SearchViewController: UIViewController  {
     }
     
     
-    private func fetchUpcoming(){
-        ApiCaller.shared.getNowPlaying{ results in
+    private func discoverFilms(){
+        ApiCaller.shared.discoverFilms(type: FilmType.series){ results in
             switch results{
             case .success(let data):
                 self.films = data.results
@@ -86,25 +94,27 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout, UICollection
         return films.count
     }
     
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let numberOfItemsPerRow:CGFloat = 3
-        let spacingBetweenCells:CGFloat = 13
-        let totalSpacing = (2 * Constants.spacing) + ((numberOfItemsPerRow - 1) * spacingBetweenCells) //Amount of total spacing in a row
+}
+
+extension SearchViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
         
-        let width = (collectionView.bounds.width - totalSpacing)/numberOfItemsPerRow
+        guard let query = searchBar.text,
+              query.trimmingCharacters(in: .whitespaces).count >= 3,
+              let resultController = searchController.searchResultsController as? SearchResultViewController else {return}
         
-        var itemWidth = width
-        
-        if(width > CGFloat(Constants.hozontal_movie_view_cell_width)){
-            itemWidth = CGFloat(Constants.hozontal_movie_view_cell_width)
+        ApiCaller.shared.searchWithQuery(query: query){ results in
+            switch results {
+            case .success(let data):
+                resultController.films = data.results
+                DispatchQueue.main.async {
+                    resultController.searchResultCollectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
         }
-        else{
-            itemWidth = width
-        }
-        
-        return CGSize(width: itemWidth, height: collectionView.bounds.width/2)
-        
     }
     
 }
