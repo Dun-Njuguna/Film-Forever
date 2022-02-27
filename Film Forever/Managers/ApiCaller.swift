@@ -143,7 +143,7 @@ class ApiCaller {
     
     func getTopRatedTvShows(completion: @escaping (Result<TopRatedTvShowsResponse, Error>) -> Void){
         guard let url = URL(string: "\(Constants.BASE_URL)/3/tv/top_rated?api_key=\(Constants.API_KEY)&language=en-US&page=1") else {return}
-
+        
         let task = URLSession.shared.dataTask(with: url, completionHandler: {data, _, error in
             guard let data = data, error == nil else {
                 return
@@ -205,12 +205,12 @@ class ApiCaller {
     
     func getDiscoverUrl(type:FilmType) -> URL?{
         switch type {
-            case .movies:
+        case .movies:
             return URL(string:
                         "\(Constants.BASE_URL)/3/discover/movie?api_key=\(Constants.API_KEY)&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate")
-            case .series:
-               return URL(string:
-                            "\(Constants.BASE_URL)/3/discover/tv?api_key=\(Constants.API_KEY)&sort_by=popularity.desc&page=1&timezone=America%2FNew_York&include_null_first_air_dates=false&with_watch_monetization_types=flatrate&with_status=0&with_type=0")
+        case .series:
+            return URL(string:
+                        "\(Constants.BASE_URL)/3/discover/tv?api_key=\(Constants.API_KEY)&sort_by=popularity.desc&page=1&timezone=America%2FNew_York&include_null_first_air_dates=false&with_watch_monetization_types=flatrate&with_status=0&with_type=0")
         }
     }
     
@@ -236,6 +236,24 @@ class ApiCaller {
         })
         task.resume()
         
+    }
+    
+    func getMovieTrailerWithQuery(query:String,  completion: @escaping (Result<YoutubeSearchResponse, Error>) -> Void){
+        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {return}
+        guard let url = URL(string: "\(Constants.YOUTUBE_API_BASE_URL)/search?q=\(query)&key=\(Constants.YOUTUBE_API_KEY)") else {return}
+        let task = URLSession.shared.dataTask(with: url, completionHandler: {data, _, error in
+            guard let data = data, error == nil else {
+                return
+            }
+            
+            do {
+                let result = try JSONDecoder().decode(YoutubeSearchResponse.self, from: data)
+                completion(.success(result))
+            }catch{
+                print(error)
+            }
+        })
+        task.resume()
     }
     
 }

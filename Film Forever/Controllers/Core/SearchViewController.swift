@@ -61,6 +61,7 @@ class SearchViewController: UIViewController  {
     
     
     private func discoverFilms(){
+        
         ApiCaller.shared.discoverFilms(type: FilmType.series){ results in
             switch results{
             case .success(let data):
@@ -101,12 +102,14 @@ extension SearchViewController: UISearchResultsUpdating {
         let searchBar = searchController.searchBar
         
         guard let query = searchBar.text,
+              !query.trimmingCharacters(in: .whitespaces).isEmpty,
               query.trimmingCharacters(in: .whitespaces).count >= 3,
               let resultController = searchController.searchResultsController as? SearchResultViewController else {return}
         
         ApiCaller.shared.searchWithQuery(query: query){ results in
             switch results {
             case .success(let data):
+                print(results)
                 resultController.films = data.results
                 DispatchQueue.main.async {
                     resultController.searchResultCollectionView.reloadData()
