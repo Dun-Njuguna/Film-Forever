@@ -8,6 +8,14 @@
 import UIKit
 
 
+enum Sections: Int{
+    case Trendingmovies = 0
+    case TrendingTv = 1
+    case Popular = 2
+    case Upcoming = 3
+    case TopRated = 4
+}
+
 /**
  Conform to datasource and delegate protocals via extension.
  
@@ -17,16 +25,16 @@ import UIKit
  */
 class HomeViewController: UIViewController {
     
-    let sectiontitles:[String] = ["Trending Movies", "Popular", "Trending Tv", "Upcomming Movies", "Top rated"]
+    let sectiontitles:[String] = ["Trending Movies", "Trending Tv",  "Popular", "Upcomming Movies", "Top rated"]
     
     /**
-    Create grouped table view
+     Create grouped table view
      
      
-    1. Set datasource, delegate and headerview.
-    2. HeaderView contains films with the highest priority enabling the user to quickly navigate and watch.
-    3. Make tableView to cover the entire screen in viewDidLayoutSubviews()
-    */
+     1. Set datasource, delegate and headerview.
+     2. HeaderView contains films with the highest priority enabling the user to quickly navigate and watch.
+     3. Make tableView to cover the entire screen in viewDidLayoutSubviews()
+     */
     let homeFeedTable: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
@@ -46,7 +54,6 @@ class HomeViewController: UIViewController {
         let headerView = HeroHeaderUIView()
         headerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 450)
         homeFeedTable.tableHeaderView = headerView
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -68,6 +75,17 @@ class HomeViewController: UIViewController {
         
     }
     
+    private func getData(){
+        ApiCaller.shared.getNowPlaying{ results in
+            switch results{
+            case .success(let movies):
+                print(movies)
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
     
 }
 
@@ -84,6 +102,55 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionViewTableViewCell.identifier, for: indexPath) as? CollectionViewTableViewCell else { return UITableViewCell()}
         
+        switch indexPath.section{
+        case Sections.Trendingmovies.rawValue:
+            ApiCaller.shared.getTrendingMovies{ results in
+                switch results{
+                case .success(let data):
+                    cell.configure(with: data.results)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        case Sections.TrendingTv.rawValue:
+            ApiCaller.shared.getTrendingTvShows{ results in
+                switch results{
+                case .success(let data):
+                    cell.configure(with: data.results)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        case Sections.Popular.rawValue:
+            ApiCaller.shared.getPopularMovies{ results in
+                switch results{
+                case .success(let data):
+                    cell.configure(with: data.results)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        case Sections.Upcoming.rawValue:
+            ApiCaller.shared.getUpcomingShows{ results in
+                switch results{
+                case .success(let data):
+                    cell.configure(with: data.results)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        case Sections.TopRated.rawValue:
+            ApiCaller.shared.getTopRatedMovies{ results in
+                switch results{
+                case .success(let data):
+                    cell.configure(with: data.results)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        default:
+            return UITableViewCell()
+        }
         return cell
     }
     
