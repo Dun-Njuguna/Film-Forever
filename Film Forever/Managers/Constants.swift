@@ -11,7 +11,7 @@ import UIKit
 struct Constants {
     
     static let API_KEY = "d59c083ee4818d897be1fad929a8731b"
-    static let YOUTUBE_API_KEY = "AIzaSyDe9Ky93cQxWXGn6n8HP5qj8bCcdZU3jYc"
+    static let YOUTUBE_API_KEY = " "
     
     static let BASE_URL = "https://api.themoviedb.org"
     static let BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"

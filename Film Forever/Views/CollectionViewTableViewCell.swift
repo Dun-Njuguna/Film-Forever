@@ -7,11 +7,18 @@
 
 import UIKit
 
+
+protocol CollectionViewTableViewCellDelegate: AnyObject {
+    func CollectionViewTableViewCellDidTapCell(_ cell:  CollectionViewTableViewCell, viewNodel: PreviewViewModel)
+}
+
 /// Defines a horizontal collectionview for home view controller table view
 
 class CollectionViewTableViewCell: UITableViewCell {
-
+    
     static let identifier = "CollectionViewTableViewCell"
+    
+    weak var delegate: CollectionViewTableViewCellDelegate?
     
     private var movies: [Movie] = [Movie]()
     
@@ -37,7 +44,7 @@ class CollectionViewTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         collectionView.frame = contentView.bounds
@@ -65,21 +72,28 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movies.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let movie = movies[indexPath.row]
         guard let titleName = movie.title ?? movie.original_title else{return}
-        getTrailer(movieTitle: titleName)
+        getTrailer(movieTitle: titleName, indexPath: indexPath)
     }
     
-    private func getTrailer(movieTitle:String){
-        ApiCaller.shared.getMovieTrailerWithQuery(query: movieTitle + "trailer"){ results in
+    private func getTrailer(movieTitle:String, indexPath: IndexPath){
+        ApiCaller.shared.getMovieTrailerWithQuery(query: movieTitle + "trailer"){ [weak self] results in
             switch results{
-                case .success(let data):
-                print(data.items?[0]?.id.videoId)
-                case .failure(let error):
-                    print(error)
+            case .success(let data):
+                print(data)
+                guard let videoElement = data.items?[0]?.id else {return}
+                guard let overview = self?.movies[indexPath.row].overview else {return}
+                guard let strongSelf = self else {return}
+                let viewModel =  PreviewViewModel(title: movieTitle  , youtubeVideo: videoElement , overview: overview)
+                self?.delegate?.CollectionViewTableViewCellDidTapCell(strongSelf, viewNodel: viewModel)
+                
+                
+            case .failure(let error):
+                print(error)
             }
         }
     }
